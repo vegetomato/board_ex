@@ -15,7 +15,7 @@ import lombok.ToString;
 public class Board {
 	private long bno;
 	private String title;
-	private String contents;
+	private String content;
 	private String writer;
 	private LocalDateTime regDate;
 	private LocalDateTime updateDate;

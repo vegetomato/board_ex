@@ -8,6 +8,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.jafa.service.BoardService;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -16,7 +17,7 @@ import com.zaxxer.hikari.HikariDataSource;
 public class RootConfig {
 	
 	@Bean
-	public DataSource dataSource() {
+	public DataSource dataSource() { //DataSource는 인터페이스
 		HikariConfig config = new HikariConfig();
 		config.setDriverClassName("com.mysql.cj.jdbc.Driver");
 		config.setJdbcUrl("jdbc:mysql://localhost/board_ex");
@@ -30,6 +31,5 @@ public class RootConfig {
 		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
 		sqlSessionFactoryBean.setDataSource(dataSource());
 		return sqlSessionFactoryBean.getObject();
-	}
-	
+	}	
 }

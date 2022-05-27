@@ -6,6 +6,32 @@
   
 <mapper namespace="com.jafa.dao.BoardMapper">
 	<select id ="getList" resultType="com.jafa.dto.Board">
-		select * from board_tbl;
+		select * from board_tbl order by bno asc
 	</select>
+	
+	<select id="findByBno" resultType="com.jafa.dto.Board"> <!-- id는 무조건 매소드 이름복사 -->
+		select * from board_tbl where bno=#{bno}
+	</select>
+	
+	<insert id="insert">
+		insert into board_tbl(title,content,writer)
+		values(#{title},#{content},#{writer})
+		<selectKey keyProperty="bno" order="AFTER" resultType="long">
+			select last_insert_id()
+		</selectKey>
+	</insert>
+	
+	<update id="update">
+		update board_tbl set 
+		title = #{title},
+		content = #{content},
+		writer = #{writer},
+		updateDate = #{updateDate}
+		where bno = #{bno}	
+	</update>
+	
+	<delete id="delete">
+		delete from board_tbl where bno=#{bno}
+	</delete>
+
 </mapper>
