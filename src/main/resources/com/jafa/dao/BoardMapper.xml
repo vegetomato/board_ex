@@ -26,8 +26,8 @@
 		title = #{title},
 		content = #{content},
 		writer = #{writer},
-		updateDate = #{updateDate}
-		where bno = #{bno}	
+		updateDate = now()
+		where bno = #{bno}
 	</update>
 	
 	<delete id="delete">

@@ -1,20 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-<h3>list</h3>
-<table>
+<%@ include file="/WEB-INF/views/layout/header.jsp" %>
+<div class="container">
+<table class="table">
 	<tr>
 		<th>번호</th>
 		<th>제목</th>
 		<th>작성자</th>
-		<th></th>
+		<th>등록일</th>
+		<th>수정일</th>
 	</tr>
 	<c:forEach items="${list}" var="b">
 	<tr>
@@ -23,13 +17,20 @@
 			<a href="get?bno=${b.bno}">${b.title}</a>
 		</td>
 		<td>${b.writer}</td>
-		<td>${b.regDate}</td>
+		<td>
+			<fmt:parseDate var="regDate" value="${b.regDate}" pattern="yyyy-MM-dd'T'HH:mm:ss"/>
+			<fmt:formatDate value="${regDate}" pattern="yyyy-MM-dd HH:mm"/>
+		</td>
+		<td>
+			<fmt:parseDate var="update" value="${b.updateDate}" pattern="yyyy-MM-dd'T'HH:mm:ss"/>
+			<fmt:formatDate value="${update}" pattern="yyyy-MM-dd HH:mm"/>
+		</td>
 	</tr>
 	</c:forEach>
 </table>
-<a href="${pageContext.request.contextPath}/board/register">글 등록</a>
+<a href="${pageContext.request.contextPath}/board/register" class="btn btn-primary">글 등록</a>
 <c:if test="${not empty message}">
 	${message}
 </c:if>
-</body>
-</html>
+</div>
+<%@ include file="/WEB-INF/views/layout/footer.jsp" %>
