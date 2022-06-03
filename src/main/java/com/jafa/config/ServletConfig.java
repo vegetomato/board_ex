@@ -9,7 +9,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @EnableWebMvc
 @ComponentScan(basePackages = {"com.jafa"})
-public class ServletConfig implements WebMvcConfigurer{
+public class ServletConfig implements WebMvcConfigurer {
 	
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {

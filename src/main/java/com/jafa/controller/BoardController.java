@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.jafa.dto.Board;
+import com.jafa.dto.Criteria;
+import com.jafa.dto.PageMaker;
 import com.jafa.service.BoardService;
 
 @Controller
@@ -20,23 +22,31 @@ public class BoardController {
 	
 	@Autowired
 	private BoardService service;
-
+	
 	@GetMapping("/list")
-	public String getBoardList(Model model) {
-		List<Board> list = service.getList();
+	public String getBoardList(Criteria criteria, Model model) {
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCriteria(criteria);
+		pageMaker.setTotalCount(service.totalCount());
+//		?page=1 -> 시작 페이지 : 1 , 끝 페이지 : 10
+//		?page=11 -> 시작 페이지 : 11 , 끝 페이지 : 20
+		
+		List<Board> list = service.getList(criteria);
 		model.addAttribute("list",list);
+		model.addAttribute("pageMaker",pageMaker);
 		return "board/list";
 	}
-	@RequestMapping(value = "/get", method = RequestMethod.GET)
+
+	@RequestMapping(value = "/get" , method = RequestMethod.GET)
 	public String get(Long bno, Model model) {
 		Board board = service.get(bno);
 		model.addAttribute("board",board);
 		return "board/get";
 	}
 	@PostMapping("/remove")
-	public String delete(Long bno , RedirectAttributes rttr) {
+	public String remove(Long bno, RedirectAttributes rttr) {
 		service.remove(bno);
-		rttr.addFlashAttribute("message", bno+"번 삭제함");
+		rttr.addFlashAttribute("messege", bno+"번 삭제함");
 		return "redirect:list";
 	}
 	@GetMapping("/register")
@@ -46,9 +56,10 @@ public class BoardController {
 	@PostMapping("/register")
 	public String register(Board board, RedirectAttributes rttr) {
 		service.register(board);
-		rttr.addFlashAttribute("message", board.getBno()+"번 글 등록");
+		rttr.addFlashAttribute("messege", board.getBno()+"번 삭제함");
 		return "redirect:list";
 	}
+
 	@GetMapping("/modify")
 	public String modify(Long bno, Model model) {
 		model.addAttribute("board",service.get(bno));

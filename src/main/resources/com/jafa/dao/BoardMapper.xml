@@ -3,13 +3,17 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-  
+  <!-- 여기서 동작하는건 getter이다. -->
 <mapper namespace="com.jafa.dao.BoardMapper">
 	<select id ="getList" resultType="com.jafa.dto.Board">
-		select * from board_tbl order by bno asc
+		select * from board_tbl limit #{pageStart},#{perPageNum}
 	</select>
 	
-	<select id="findByBno" resultType="com.jafa.dto.Board"> <!-- id는 무조건 매소드 이름복사 -->
+	<select id="totalCount" resultType="Integer">
+		select count(*) from board_tbl 
+	</select>
+	
+	<select id="findByBno" resultType="com.jafa.dto.Board"> <!-- id는 무조건 BoardMapper.java의매소드 이름복사 -->
 		select * from board_tbl where bno=#{bno}
 	</select>
 	
