@@ -2,21 +2,45 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
-  <!-- 여기서 동작하는건 getter이다. -->
+<!-- 여기서 동작하는건 getter이다. -->
 <mapper namespace="com.jafa.dao.BoardMapper">
-	<select id ="getList" resultType="com.jafa.dto.Board">
-		select * from board_tbl limit #{pageStart},#{perPageNum}
+	<sql id="search">
+		<where>
+			<trim prefixOverrides="OR">
+				<foreach collection="typeCollection">
+					<trim prefix="OR">
+						<choose>
+							<when test="type =='T'.toString()">
+								title like concat('%',#{keyword},'%')
+							</when>
+							<when test="type =='C'.toString()">
+								content like concat('%',#{keyword},'%')
+							</when>
+							<when test="type =='W'.toString()">
+								writer like concat('%',#{keyword},'%')
+							</when>
+						</choose>
+					</trim>
+				</foreach>
+			</trim>
+		</where>
+	</sql>
+
+	<select id="getList" resultType="com.jafa.dto.Board">
+		select * from board_tbl
+		<include refid="search"/>
+		order by bno desc limit #{pageStart},#{perPageNum}
 	</select>
-	
+
 	<select id="totalCount" resultType="Integer">
-		select count(*) from board_tbl 
+		select count(*) from board_tbl
+		<include refid="search"/>
 	</select>
-	
+
 	<select id="findByBno" resultType="com.jafa.dto.Board"> <!-- id는 무조건 BoardMapper.java의매소드 이름복사 -->
 		select * from board_tbl where bno=#{bno}
 	</select>
-	
+
 	<insert id="insert">
 		insert into board_tbl(title,content,writer)
 		values(#{title},#{content},#{writer})
@@ -24,18 +48,18 @@
 			select last_insert_id()
 		</selectKey>
 	</insert>
-	
+
 	<update id="update">
-		update board_tbl set 
+		update board_tbl set
 		title = #{title},
-		content = #{content},
+		content =
+		#{content},
 		writer = #{writer},
 		updateDate = now()
 		where bno = #{bno}
 	</update>
-	
+
 	<delete id="delete">
 		delete from board_tbl where bno=#{bno}
 	</delete>
-
 </mapper>

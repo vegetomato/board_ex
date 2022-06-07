@@ -38,7 +38,7 @@ public class BoardService {
 		
 	}
 	
-	public int totalCount() {
-		return mapper.totalCount();
+	public int totalCount(Criteria criteria) {
+		return mapper.totalCount(criteria);
 	}
 }

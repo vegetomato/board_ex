@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.jafa.config.RootConfig;
+import com.jafa.dto.Criteria;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {RootConfig.class})
@@ -20,7 +21,7 @@ public class TotalCountTest {
 	private BoardMapper mapper;
 	
 	@Test
-	public void totalCountTest() {
-		assertEquals(412, mapper.totalCount());
+	public void totalCountTest(Criteria criteria) {
+		assertEquals(412, mapper.totalCount(criteria));
 	}
 }

@@ -27,7 +27,7 @@ public class BoardController {
 	public String getBoardList(Criteria criteria, Model model) {
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCriteria(criteria);
-		pageMaker.setTotalCount(service.totalCount());
+		pageMaker.setTotalCount(service.totalCount(criteria));
 //		?page=1 -> 시작 페이지 : 1 , 끝 페이지 : 10
 //		?page=11 -> 시작 페이지 : 11 , 끝 페이지 : 20
 		
